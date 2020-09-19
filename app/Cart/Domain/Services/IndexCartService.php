@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Cart\Domain\Models\Services;
+namespace App\Cart\Domain\Services;
 
+use App\App\Domain\Cart\Cart;
 use App\App\Domain\Services\BaseService;
+use App\App\Domain\Payloads\GenericPayload;
 
 class IndexCartService extends BaseService
 {
@@ -17,5 +19,15 @@ class IndexCartService extends BaseService
     public function __construct(Cart $cart)
     {
         $this->cart = $cart;
+    }
+
+    /**
+     * @param array $request
+     */
+    public function handle($request = [])
+    {
+        return new GenericPayload($request->user()->load([
+
+        ]));
     }
 }

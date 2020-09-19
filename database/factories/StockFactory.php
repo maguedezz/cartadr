@@ -2,12 +2,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model;
-use App\Stocks\Domain\Models\Stock;
 use Faker\Generator as Faker;
+use App\Stocks\Domain\Models\Stock;
 
 $factory->define(Stock::class, function (Faker $faker) {
     return [
-        'quantity' => 1
+        'quantity' => 2,
     ];
 });

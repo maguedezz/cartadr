@@ -1,5 +1,6 @@
 <?php
 
+use App\Cart\Actions\IndexCartAction;
 use App\Users\Actions\LoginUserAction;
 use App\Users\Actions\RegisterUserAction;
 use App\Products\Actions\ShowProductAction;
@@ -16,8 +17,8 @@ Route::group(['prefix' => 'auth', 'middleware' => 'guest:api'], function () {
     Route::post('/login', LoginUserAction::class);
 });
 
-// Route::group(['middleware' => ['auth:api']], function () {
-//     Route::post('cart', IndexCartAction::class);
-// });
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::post('/cart', IndexCartAction::class);
+});
 
 Route::get('/products/{product}', ShowProductAction::class);
