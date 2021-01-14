@@ -3,8 +3,8 @@
 namespace App\App\Domain\Middleware;
 
 use Closure;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
+use Illuminate\Http\JsonResponse;
 
 class ProfileJsonResponse
 {
@@ -17,16 +17,17 @@ class ProfileJsonResponse
      */
     public function handle($request, Closure $next)
     {
-      $response = $next($request);
+        $response = $next($request);
         if ($response instanceof JsonResponse && app('debugbar')->isEnabled() && $request->has('_debug')) {
             $sqlQueries = app('debugbar')->getData(true)['queries'];
             $sqlQueries['statements'] = array_map(function ($value) {
                 return $value['sql'];
             }, $sqlQueries['statements']);
             $response->setData($response->getData(true) + [
-                    '_debugbar' => array_merge($sqlQueries['statements'],Arr::only(app('debugbar')->getData(), [ 'memory'])),
-                    ]);
+                '_debugbar' => array_merge($sqlQueries['statements'], Arr::only(app('debugbar')->getData(), ['memory'])),
+            ]);
         }
+
         return $response;
     }
 }

@@ -33,6 +33,7 @@ class LoginUserAction
      */
     public function __invoke(LoginRequestForm $request)
     {
+
         return $this->responder->withResponse($this->services->handle($request->validated()))->respond();
     }
 }

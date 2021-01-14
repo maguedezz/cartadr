@@ -28,8 +28,8 @@ class StoreCartRequestForm extends FormRequest
     {
         return [
             'products' => 'required|array',
-            'products.*id' => 'required|exists:product_variations,id', // exist within productvariations table under the id column
-            'products.*quantity' => 'numeric|min:1',
+            'products.*.id' => 'required|exists:product_variations,id', // exist within productvariations table under the id column
+            'products.*.quantity' => 'numeric|min:1',
         ];
     }
 }

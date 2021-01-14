@@ -1,6 +1,9 @@
 <?php
 
 use App\Cart\Actions\IndexCartAction;
+use App\Cart\Actions\StoreCartAction;
+use App\Cart\Actions\DeleteCartAction;
+use App\Cart\Actions\UpdateCartAction;
 use App\Users\Actions\LoginUserAction;
 use App\Users\Actions\RegisterUserAction;
 use App\Products\Actions\ShowProductAction;
@@ -18,7 +21,10 @@ Route::group(['prefix' => 'auth', 'middleware' => 'guest:api'], function () {
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::post('/cart', IndexCartAction::class);
+    Route::post('/cart', StoreCartAction::class);
+    Route::get('cart', IndexCartAction::class);
+    Route::put('cart/{productVariation}', UpdateCartAction::class);
+    Route::delete('cart/{productVariation}', DeleteCartAction::class);
 });
 
 Route::get('/products/{product}', ShowProductAction::class);
