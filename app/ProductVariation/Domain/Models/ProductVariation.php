@@ -35,6 +35,14 @@ class ProductVariation extends Model
     }
 
     /**
+     * @param $count
+     */
+    public function minStock($count)
+    {
+        return min($this->stockCount(), $count);
+    }
+
+    /**
      * @return mixed
      */
     public function priceVaries()

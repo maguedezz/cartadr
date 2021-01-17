@@ -6,6 +6,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        $this->call(CountriesTableSeeder::class);
         //$this->call(CategoriesTableSeeder::class );
         //$this->call(Product_VariationsTableSeeder::class );
         //$this->call(OrdersTableSeeder::class );

@@ -25,7 +25,12 @@ class IndexCartResponder extends Responder implements ResponderInterface
     public function respond()
     {
         return (new CartResource($this->response->getData()))->additional([
-            'meta',
+            'meta' => [
+                'empty' => $this->cart->isEmpty(),
+                'subtotal' => $this->cart->subtotal()->formatted(),
+                'total' => $this->cart->total()->formatted(),
+                'changed' => $this->cart->hasChanged(),
+            ],
         ]);
     }
 }

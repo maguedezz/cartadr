@@ -26,6 +26,9 @@ class IndexCartService extends BaseService
      */
     public function handle($request = [])
     {
-        return new GenericPayload($request->user()->load(['cart', 'cart.type', 'cart.stock', 'cart.product']));
+        $this->cart->sync();
+        $request->user()->load(['cart', 'cart.type', 'cart.stock', 'cart.product', 'cart.type']);
+
+        return new GenericPayload($request->user());
     }
 }

@@ -2,10 +2,16 @@
 
 namespace App\App\Domain\Cart;
 
+use App\App\Domain\Cart\Money;
 use App\Users\Domain\Models\User;
 
 class Cart
 {
+    /**
+     * @var mixed
+     */
+    protected $changed = false;
+
     /**
      * @var mixed
      */
@@ -57,9 +63,61 @@ class Cart
     /**
      * @return mixed
      */
+    public function hasChanged()
+    {
+        return $this->changed;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isEmpty()
+    {
+        return $this->user->cart->sum('pivot.quantity') <= 0;
+    }
+
+    /**
+     * @return mixed
+     */
     public function products()
     {
         return $this->user->cart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function subtotal()
+    {
+        $subtotal = $this->user->cart->sum(function ($product) {
+            return $product->price->amount() * $product->pivot->quantity;
+        });
+
+        return new Money($subtotal);
+    }
+
+    /**
+     * @return null
+     */
+    public function sync()
+    {
+        $this->user->cart->each(function ($product) {
+            $quantity = $product->minStock($product->pivot->quantity);
+
+            $this->changed = $quantity !== $product->pivot->quantity;
+
+            $product->pivot->update([
+                'quantity' => $quantity,
+            ]);
+        });
+    }
+
+    /**
+     * @return mixed
+     */
+    public function total()
+    {
+        return $this->subtotal();
     }
 
     /**

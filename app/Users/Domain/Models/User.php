@@ -3,6 +3,7 @@
 namespace App\Users\Domain\Models;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Addresses\Domain\Models\Address;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\ProductVariation\Domain\Models\ProductVariation;
@@ -37,6 +38,14 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @return mixed
+     */
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 
     public static function boot()
     {
